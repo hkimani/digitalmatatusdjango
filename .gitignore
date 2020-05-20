@@ -1,6 +1,8 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+db.sqlite3
+gtfs/db.sqlite3
 
 # C extensions
 *.so
