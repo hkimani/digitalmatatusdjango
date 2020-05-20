@@ -4,7 +4,7 @@ from django.db import models
 class Agency(models.Model):
     agency_id = models.CharField(max_length=100, primary_key=True)
     agency_name = models.CharField(max_length=100)
-    agency_url = models.TextField(max_length=1000)
+    agency_url = models.SlugField()
     agency_timezone = models.CharField(max_length=100)
     agency_lang = models.CharField(max_length=10)
     agency_phone = models.CharField(max_length=50)
@@ -60,7 +60,7 @@ class Routes(models.Model):
     route_id = models.CharField(max_length=100, primary_key=True)
     agency_id = models.ForeignKey(Agency, on_delete=models.CASCADE)
     route_short_name = models.CharField(max_length=100)
-    route_long_name = models.TextField(max_length=1000)
+    route_long_name = models.TextField()
     route_type = models.IntegerField()
 
     class Meta:
@@ -69,8 +69,8 @@ class Routes(models.Model):
 class Stops(models.Model):
     stop_id = models.CharField(max_length=100, primary_key=True)
     stop_name = models.CharField(max_length=100)
-    stop_lat = models.TextField(max_length=500)
-    stop_lon = models.TextField(max_length=500)
+    stop_lat = models.TextField()
+    stop_lon = models.TextField()
     location_type = models.IntegerField(blank=True, null=True)
     parent_station = models.CharField(max_length=100, blank=True)
 
