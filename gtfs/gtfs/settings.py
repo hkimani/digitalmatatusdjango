@@ -74,13 +74,15 @@ WSGI_APPLICATION = 'gtfs.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+HOST = 'sqldb' if os.getenv("ENV") == 'Production' else '127.0.0.1'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv("MYSQL_DATABASE"),
         'USER': 'root',
         'PASSWORD': os.getenv("MYSQL_ROOT_PASSWORD"),
-        'HOST': 'sqldb',
+        'HOST': HOST,
         'PORT': 3306,
     }
 }
