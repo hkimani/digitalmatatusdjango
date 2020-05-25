@@ -94,7 +94,7 @@ class StopTimes(models.Model):
     arrival_time = models.CharField(max_length=100)
     departure_time = models.CharField(max_length=100)
     stop_id = models.ForeignKey(Stops, on_delete=models.CASCADE, db_column='stop_id')
-    stop_sequence = models.CharField(max_length=100)
+    stop_sequence = models.IntegerField()
 
     class Meta:
         db_table = 'stop_times'

@@ -64,17 +64,19 @@ def stops(request):
     '''
 
     if request.method == 'GET':
-        route_id = request.GET.getlist('route_id')[0]
+        route_id = request.GET.getlist('route_id')[0];
+        trip_id = request.GET.getlist('trip_id')[0];
+        current_page = int(request.GET.getlist('page')[0]);
+        page_count = int(request.GET.getlist('page_count')[0]);
 
-        response = None
+        query_range_start = (page_count * current_page) - page_count;
+        query_range_end = (page_count * current_page);
 
         try:
-            related_trips = Trips.objects.filter(route_id=route_id)
-            related_stop_times = StopTimes.objects.filter(trip_id__in=related_trips).order_by(
-                'stop_id').distinct().values_list('stop_id', flat=True)
-            related_stops = Stops.objects.filter(
-                stop_id__in=related_stop_times).order_by('stop_id').distinct()
-            response = related_stop_times.values()
+            related_trips = Trips.objects.filter(route_id=route_id, trip_id=trip_id)
+            related_stop_times = StopTimes.objects.filter(trip_id__in=related_trips).distinct().values_list('stop_id', flat=True).order_by('stop_sequence')
+            related_stops = Stops.objects.filter(stop_id__in=related_stop_times).distinct()[query_range_start:query_range_end]
+            total_stops = Stops.objects.filter(stop_id__in=related_stop_times).distinct().count()
 
         except Exception as e:
             response_data = {
@@ -85,14 +87,14 @@ def stops(request):
             response_data = {
                 "success": "True",
                 "message": "Successfully retireved stops",
-                "info": {"trips": list(related_trips.values()), "stops": list(response), "length": len(list(response))}
+                "info": { "total_stops": total_stops, "stops": list(related_stops.values()), "stop_times": list(related_stop_times.values())[query_range_start:query_range_end] }
             }
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 def trips(request):
     if request.method == "GET":
-        route_id = request.GET.getlist('route_id')[0]
+        route_id = request.GET.getlist('route_id')[0];
 
         try:
             related_trips = Trips.objects.filter(route_id=route_id)
