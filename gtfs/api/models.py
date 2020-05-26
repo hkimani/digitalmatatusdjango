@@ -99,6 +99,17 @@ class StopTimes(models.Model):
     class Meta:
         db_table = 'stop_times'
 
+class Fares(models.Model):
+    fare_id = models.AutoField(primary_key=True)
+    price = models.FloatField()
+    currency_type = models.CharField(max_length=10, default='KSH', editable=False)
+    route_id = models.ForeignKey(Routes, on_delete=models.CASCADE, db_column='route_id')
+    origin_id = models.ForeignKey(Stops, on_delete=models.CASCADE, related_name='origin_stop_id')
+    destination_id = models.ForeignKey(Stops, on_delete=models.CASCADE, related_name='destination_stop_id')
+
+    class Meta:
+        db_table = 'fares'
+
 class Frequencies(models.Model):
     trip_id = models.ForeignKey(Trips, on_delete=models.CASCADE, db_column='trip_id')
     start_time = models.CharField(max_length=100)
