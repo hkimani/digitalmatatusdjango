@@ -106,6 +106,7 @@ class Fares(models.Model):
     route_id = models.ForeignKey(Routes, on_delete=models.CASCADE, db_column='route_id')
     origin_id = models.ForeignKey(Stops, on_delete=models.CASCADE, related_name='origin_stop_id')
     destination_id = models.ForeignKey(Stops, on_delete=models.CASCADE, related_name='destination_stop_id')
+    period = models.CharField(max_length=100, default="11:00-1:00")
 
     class Meta:
         db_table = 'fares'

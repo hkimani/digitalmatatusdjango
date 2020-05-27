@@ -81,7 +81,7 @@ def stops(request):
             related_trips = Trips.objects.filter(route_id=route_id, trip_id=trip_id)
             related_stop_times = StopTimes.objects.filter(trip_id__in=related_trips).distinct().values_list('stop_id', flat=True).order_by('stop_sequence')
             related_stops = Stops.objects.filter(stop_id__in=related_stop_times).distinct()
-            related_fares = Fares.objects.filter(origin_id__in=related_stops, destination_id__in=related_stops).distinct().values('price', 'route_id', 'origin_id', 'destination_id')
+            related_fares = Fares.objects.filter(origin_id__in=related_stops, destination_id__in=related_stops).distinct().values('price', 'route_id', 'origin_id', 'destination_id', 'period')
             total_stops = Stops.objects.filter(stop_id__in=related_stop_times).distinct().count()
 
         except Exception as e:
