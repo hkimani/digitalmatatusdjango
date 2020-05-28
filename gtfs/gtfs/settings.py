@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '*wl-ja9jx%3*!-qhod+604l1x5ad&_madcry-#cdqn8t-3)j_*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.getenv("ENV") == 'Production' else True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['weskool.team']
 
 # Application definition
 
