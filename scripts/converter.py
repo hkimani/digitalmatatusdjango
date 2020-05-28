@@ -5,8 +5,9 @@ import os
 # SCRIPT TO CONVERT TXT TO CSV
 
 cur_path = os.path.abspath(__file__)
-path_to_files = os.path.relpath('data/GTFS_FEED/', cur_path)
-path_to_csv = os.path.relpath('data/GTFS_FEED_CSV/', cur_path)
+path_to_files = os.path.abspath(os.path.relpath('data/GTFS_FEED/', cur_path))
+path_to_csv = os.path.abspath(os.path.relpath('data/GTFS_FEED_CSV/', cur_path))
+
 
 def listDir(directory):
     files = os.listdir(directory)
@@ -22,7 +23,6 @@ def listDir(directory):
 # Check whether we are at the main module
 if __name__ == '__main__':
     listDir(path_to_files)
-
 
 # with open(new_path, 'r') as f:
 #     print(f.read())

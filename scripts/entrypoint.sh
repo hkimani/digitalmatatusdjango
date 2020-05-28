@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Path
 cd /opt/digimatt/gtfs
 
 export DJANGO_SETTINGS_MODULE=gtfs.settings
