@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'gtfs.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-HOST = '127.0.0.1'
+HOST = 'sqldb' if os.getenv("ENV") == 'Production' else '127.0.0.1'
 
 DATABASES = {
     'default': {
