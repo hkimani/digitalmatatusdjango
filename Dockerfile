@@ -10,9 +10,17 @@ RUN apt-get update -y &&  \
     libpq-dev \
     python3-dev
 
-RUN mkdir /code
-WORKDIR /code
+# Create our base folder
+RUN mkdir /opt/digitmatt
+
+# create the folder where the static files will be collected to
+RUN mkdir /opt/digimatt/static
+
+# Return to the base folder
+WORKDIR /opt/digitmatt
+
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
-COPY . /code/
+
+COPY . /opt/digitmatt/
 # RUN /bin/sh /code/scripts/entrypoint.sh

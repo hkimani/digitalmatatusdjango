@@ -25,7 +25,7 @@ SECRET_KEY = '*wl-ja9jx%3*!-qhod+604l1x5ad&_madcry-#cdqn8t-3)j_*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if os.getenv("ENV") == 'Production' else True
 
-ALLOWED_HOSTS = ['weskool.team']
+ALLOWED_HOSTS = ['weskool.team', '0.0.0.0', 'localhost']
 
 # Application definition
 
@@ -65,6 +65,10 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
+
+# SECURE_SSL_REDIRECT = False if os.getenv("ENV") == 'Production' else True
+# SESSION_COOKIE_SECURE = False if os.getenv("ENV") == 'Production' else True
+# CSRF_COOKIE_SECURE = False if os.getenv("ENV") == 'Production' else True
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -143,3 +147,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/opt/digimatt/static/'
+STATIC_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static'))
+
