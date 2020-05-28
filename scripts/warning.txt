@@ -1,0 +1,5 @@
+SHOULD RUN ONLY ON INITIAL SETUP
+
+docker exec -it <container-id> python3 /opt/digimatt/scripts/converter.py
+docker exec -it <container-id> python3 /opt/digimatt/scripts/importer.py
+
