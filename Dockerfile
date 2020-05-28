@@ -11,16 +11,16 @@ RUN apt-get update -y &&  \
     python3-dev
 
 # Create our base folder
-RUN mkdir /opt/digitmatt
+RUN mkdir /opt/digimatt
 
 # create the folder where the static files will be collected to
-RUN mkdir -p /opt/digimatt/static
+RUN mkdir /opt/digimatt/static
 
 # Return to the base folder
-WORKDIR /opt/digitmatt
+WORKDIR /opt/digimatt
 
-COPY requirements.txt /code/
+COPY requirements.txt /opt/digimatt/
 RUN pip install -r requirements.txt
 
-COPY . /opt/digitmatt/
+COPY . /opt/digimatt/
 # RUN /bin/sh /code/scripts/entrypoint.sh
