@@ -4,25 +4,30 @@ import os
 
 # SCRIPT TO CONVERT TXT TO CSV
 
+production_file_path = '/opt/digimatt/data/GTFS_FEED/'
+production_csv_path = '/opt/digimatt/data/GTFS_FEED_CSV/'
+
 cur_path = os.path.abspath(__file__)
 path_to_files = os.path.abspath(os.path.relpath('data/GTFS_FEED/', cur_path))
 path_to_csv = os.path.abspath(os.path.relpath('data/GTFS_FEED_CSV/', cur_path))
 
 
-def listDir(directory):
-    files = os.listdir(directory)
+def listDir(file_dir, csv_path):
+    files = os.listdir(file_dir)
     for file in files:
 
-        file_path = os.path.abspath(os.path.join(directory, file))
+        file_path = os.path.abspath(os.path.join(file_dir, file))
         new_file_name = os.path.splitext(file)[0] + '.csv'
 
         read = pd.read_csv(file_path)
-        read.to_csv(path_to_csv + '/' + new_file_name, index=None)
+        read.to_csv(csv_path + '/' + new_file_name, index=None)
 
 
 # Check whether we are at the main module
 if __name__ == '__main__':
-    listDir(path_to_files)
+    file_path = production_file_path if os.getenv("ENV") == 'Production' else path_to_files
+    csv_path = production_csv_path if os.getenv("ENV") == 'Production' else path_to_csv
+    listDir(file_path, csv_path)
 
 # with open(new_path, 'r') as f:
 #     print(f.read())
