@@ -14,7 +14,7 @@ RUN apt-get update -y &&  \
 RUN mkdir /opt/digitmatt
 
 # create the folder where the static files will be collected to
-RUN mkdir /opt/digimatt/static
+RUN mkdir -p /opt/digimatt/static
 
 # Return to the base folder
 WORKDIR /opt/digitmatt
