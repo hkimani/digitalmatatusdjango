@@ -3,7 +3,7 @@ import pymysql
 import os
 
 conn = pymysql.connect(
-    host="127.0.0.1",
+    host='sqldb' if os.getenv("ENV") == 'Production' else '127.0.0.1',
     port=3306,
     user="root",
     password=os.getenv("MYSQL_ROOT_PASSWORD"),
@@ -15,6 +15,8 @@ cursor.execute("SET FOREIGN_KEY_CHECKS=0")
 
 cur_path = os.path.abspath(__file__)
 path_to_csv = os.path.relpath('data/GTFS_FEED_CSV/', cur_path)
+
+production_csv_path = '/opt/digimatt/data/GTFS_FEED_CSV/'
 
 
 def listDir(directory):
@@ -62,4 +64,5 @@ def spreader(array, input_type):
 
 # Check whether we are at the main module
 if __name__ == '__main__':
-    listDir(path_to_csv)
+    csv_path = production_csv_path if os.getenv("ENV") == 'Production' else path_to_csv
+    listDir(csv_path)
