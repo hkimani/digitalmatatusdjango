@@ -9,7 +9,7 @@ import json
 
 def root(request):
     response_data = {
-        "success": "true",
+        "success": True,
         "message": "Server is live"
     }
     return HttpResponse(json.dumps(response_data), content_type="application/json")
@@ -33,12 +33,12 @@ def routes(request):
 
         except Exception as e:
             response_data = {
-                "success": "false",
+                "success": False,
                 "message": f"{e}"
             }
         else:
             response_data = {
-                "success": "True",
+                "success": True,
                 "message": f"Successfully retireved page: {current_page} data",
                 "info": {"routes": routes, "total": total_routes}
             }
@@ -86,12 +86,12 @@ def stops(request):
 
         except Exception as e:
             response_data = {
-                "success": "false",
+                "success": False,
                 "message": f"{e}"
             }
         else:
             response_data = {
-                "success": "True",
+                "success": True,
                 "message": "Successfully retireved stops",
                 "info": { 
                     "total_stops": total_stops, 
@@ -112,12 +112,12 @@ def trips(request):
 
         except Exception as e:
             response_data = {
-                "success": "false",
+                "success": False,
                 "message": f"{e}"
             }
         else:
             response_data = {
-                "success": "True",
+                "success": True,
                 "message": "Successfully retireved trips",
                 "info": {"trips": list(related_trips.values())}
             }
