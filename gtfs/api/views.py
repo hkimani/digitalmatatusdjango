@@ -43,7 +43,27 @@ def routes(request):
                 "info": {"routes": routes, "total": total_routes}
             }
 
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def stats(request):
+    if request.method == 'GET':
+        try:
+            total_routes = int(Routes.objects.all().count())
+            total_stops = int(Stops.objects.all().count())
+
+        except Exception as e:
+            response_data = {
+                "success": False,
+                "message": f"{e}"
+            }
+        else:
+            response_data = {
+                "success": True,
+                "message": f"Successfully retrieved route stats",
+                "info": {"total_routes": total_routes, "total_stops": total_stops}
+            }
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 def stops(request):
@@ -100,7 +120,7 @@ def stops(request):
                     "fares": list(related_fares[query_range_start:query_range_end])
                     }
             }
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 def trips(request):
@@ -122,7 +142,7 @@ def trips(request):
                 "info": {"trips": list(related_trips.values())}
             }
 
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 @csrf_exempt
 def saveVerifiedFares(request):
@@ -152,6 +172,6 @@ def saveVerifiedFares(request):
                 "success": True,
                 "message": "Successfully saved fare price",
             }
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
