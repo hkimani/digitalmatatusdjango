@@ -1,4 +1,8 @@
 from random import randrange
+import os
+import django
+os.environ["DJANGO_SETTINGS_MODULE"] = 'gtfs.settings'
+django.setup()
 from api.models import Routes
 
 def random_max():
