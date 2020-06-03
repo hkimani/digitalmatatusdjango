@@ -1,5 +1,12 @@
 from django.db import models
+from random import randrange
 import datetime
+
+def random_max():
+    return randrange(50, 150, 10)
+
+def random_min():
+    return randrange(20, 100, 10)
 
 # Create your models here.
 class Agency(models.Model):
@@ -63,6 +70,8 @@ class Routes(models.Model):
     route_short_name = models.CharField(max_length=100)
     route_long_name = models.TextField()
     route_type = models.IntegerField()
+    max_fare = models.IntegerField(default=random_max)
+    min_fare = models.IntegerField(default=random_min)
 
     class Meta:
         db_table = 'routes'
