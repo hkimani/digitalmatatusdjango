@@ -70,8 +70,8 @@ class Routes(models.Model):
     route_short_name = models.CharField(max_length=100)
     route_long_name = models.TextField()
     route_type = models.IntegerField()
-    max_fare = models.IntegerField(default=random_max)
-    min_fare = models.IntegerField(default=random_min)
+    max_fare = models.IntegerField(default=random_max, null=True)
+    min_fare = models.IntegerField(default=random_min, null=True)
 
     class Meta:
         db_table = 'routes'
