@@ -7,5 +7,6 @@ urlpatterns = [
     path('stops/', views.stops, name='stops'),
     path('trips/', views.trips, name='trips'),
     path('priceVerified/', views.saveVerifiedFares, name='verifiedFares'),
-    path('stats/', views.stats, name='stats')
+    path('stats/', views.stats, name='stats'),
+    path('fares/', views.fares, name='fares')
 ]

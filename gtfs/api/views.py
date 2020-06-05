@@ -7,6 +7,7 @@ import json
 
 # Create your views here.
 
+
 def root(request):
     response_data = {
         "success": True,
@@ -69,7 +70,7 @@ def stats(request):
 def stops(request):
 
     def listToDict(lst):
-        fares = { lst[i]['destination_id']: lst[i] for i in range(0, len(lst)) }
+        fares = {lst[i]['destination_id']: lst[i] for i in range(0, len(lst))}
         return fares
 
     # Equivalent SQL Query
@@ -89,20 +90,25 @@ def stops(request):
     '''
 
     if request.method == 'GET':
-        route_id = request.GET.getlist('route_id')[0];
-        trip_id = request.GET.getlist('trip_id')[0];
-        current_page = int(request.GET.getlist('page')[0]);
-        page_count = int(request.GET.getlist('page_count')[0]);
+        route_id = request.GET.getlist('route_id')[0]
+        trip_id = request.GET.getlist('trip_id')[0]
+        current_page = int(request.GET.getlist('page')[0])
+        page_count = int(request.GET.getlist('page_count')[0])
 
-        query_range_start = (page_count * current_page) - page_count;
-        query_range_end = (page_count * current_page);
+        query_range_start = (page_count * current_page) - page_count
+        query_range_end = (page_count * current_page)
 
         try:
-            related_trips = Trips.objects.filter(route_id=route_id, trip_id=trip_id)
-            related_stop_times = StopTimes.objects.filter(trip_id__in=related_trips).distinct().values_list('stop_id', flat=True).order_by('stop_sequence')
-            related_stops = Stops.objects.filter(stop_id__in=related_stop_times).distinct()
-            related_fares = Fares.objects.filter(origin_id__in=related_stops, destination_id__in=related_stops).distinct().values('price', 'route_id', 'origin_id', 'destination_id', 'period')
-            total_stops = Stops.objects.filter(stop_id__in=related_stop_times).distinct().count()
+            related_trips = Trips.objects.filter(
+                route_id=route_id, trip_id=trip_id)
+            related_stop_times = StopTimes.objects.filter(trip_id__in=related_trips).distinct(
+            ).values_list('stop_id', flat=True).order_by('stop_sequence')
+            related_stops = Stops.objects.filter(
+                stop_id__in=related_stop_times).distinct()
+            related_fares = Fares.objects.filter(origin_id__in=related_stops, destination_id__in=related_stops).distinct(
+            ).values('price', 'route_id', 'origin_id', 'destination_id', 'period')
+            total_stops = Stops.objects.filter(
+                stop_id__in=related_stop_times).distinct().count()
 
         except Exception as e:
             response_data = {
@@ -113,19 +119,19 @@ def stops(request):
             response_data = {
                 "success": True,
                 "message": "Successfully retireved stops",
-                "info": { 
-                    "total_stops": total_stops, 
-                    "stops": list(related_stops.values()[query_range_start:query_range_end]), 
+                "info": {
+                    "total_stops": total_stops,
+                    "stops": list(related_stops.values()[query_range_start:query_range_end]),
                     "stop_times": list(related_stop_times.values())[query_range_start:query_range_end],
                     "fares": list(related_fares[query_range_start:query_range_end])
-                    }
+                }
             }
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 def trips(request):
     if request.method == "GET":
-        route_id = request.GET.getlist('route_id')[0];
+        route_id = request.GET.getlist('route_id')[0]
 
         try:
             related_trips = Trips.objects.filter(route_id=route_id)
@@ -144,6 +150,7 @@ def trips(request):
 
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
+
 @csrf_exempt
 def saveVerifiedFares(request):
     if request.method == "POST":
@@ -159,8 +166,9 @@ def saveVerifiedFares(request):
             origin_instance = Stops.objects.get(stop_id=origin_id)
             destination_instance = Stops.objects.get(stop_id=destination_id)
 
-            fare_price = Fares(route_id=route_instance, origin_id=origin_instance, destination_id=destination_instance, price=price)
-            fare_price.save();
+            fare_price = Fares(route_id=route_instance, origin_id=origin_instance,
+                               destination_id=destination_instance, price=price)
+            fare_price.save()
 
         except Exception as e:
             response_data = {
@@ -175,3 +183,29 @@ def saveVerifiedFares(request):
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+def fares(request):
+
+    def listToDict(lst):
+        fares = {lst[i]['destination_id_id']: lst[i] for i in range(0, len(lst))}
+        return fares
+
+    if request.method == "GET":
+        origin_id = request.GET.getlist('origin_id')[0]
+        period = request.GET.getlist('period')[0]
+
+        try:
+            fares = Fares.objects.filter(origin_id=origin_id, period=period)
+
+        except Exception as e:
+            response_data = {
+                "success": False,
+                "message": f"{e}"
+            }
+        else:
+            response_data = {
+                "success": True,
+                "message": "Successfully retireved trips",
+                "info": {"fares": listToDict(list(fares.values()))}
+            }
+
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
