@@ -6,3 +6,5 @@ docker exec -it <container-id> python3 /opt/digimatt/scripts/importer.py
 # Generating random fares for already existing fields
 # ... may not be necessary
 docker exec -it <container-id> python3 /opt/digimatt/gtfs/randomGenerator.py
+docker exec -it <container-id> python3 /opt/digimatt/gtfs/randomFaresGenerator.py
+
